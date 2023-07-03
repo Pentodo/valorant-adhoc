@@ -1,0 +1,6 @@
+[submodule "valorant-api"]
+	path = valorant-api
+	url = https://github.com/Pentodo/valorant-api.git
+[submodule "valorant-frontend"]
+	path = valorant-frontend
+	url = https://github.com/GabrielSilva2012/valorant-frontend.git

@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 15s
+      retries: 5
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@root.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - 80:80
+  valorant-api:
+    container_name: valorant-api
+    build: ./valorant-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  valorant-frontend:
+    container_name: valorant-frontend
+    build: ./valorant-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+
+networks:
+  default:
+    name: valorant-network
